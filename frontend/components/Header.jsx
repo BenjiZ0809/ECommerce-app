@@ -1,41 +1,55 @@
-import { View, Text, TouchableOpacity, Pressable } from "react-native";
+import { ddPressable, Platform } from "react-native";
 import React from "react";
 import { Avatar } from "react-native-paper";
 import { Colors } from "../styles/styles";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-const Header = ({ back }) => {
+const Header = ({ back, emptyCart = false }) => {
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const emptyCartHandler = () => {
+    console.log("empty cart");
+  };
 
   return (
     <>
       {back && (
-        <TouchableOpacity
+        <Pressable
           style={{
             position: "absolute",
+            left: 20,
+            top: Platform.OS === "android" ? 30 : 0,
+            zIndex: 10,
           }}
           onPress={() => navigation.goBack()}
         >
           <Avatar.Icon
             icon={"arrow-left"}
-            color={Colors.gray500}
+            color={
+              route.name === "productDetails" ? Colors.white : Colors.gray500
+            }
             style={{ backgroundColor: Colors.transparent }}
           ></Avatar.Icon>
-        </TouchableOpacity>
+        </Pressable>
       )}
 
       <Pressable
         style={{
           position: "absolute",
           right: 20,
-          top: 40,
+          top: Platform.OS === "android" ? 30 : 0,
           zIndex: 10,
         }}
-        onPress={() => navigation.navigate("cart")}
+        onPress={
+          emptyCart ? emptyCartHandler : () => navigation.navigate("cart")
+        }
       >
         <Avatar.Icon
-          icon={"cart-outline"}
-          color={Colors.gray500}
+          icon={emptyCart ? "delete-outline" : "cart-outline"}
+          color={
+            route.name === "productDetails" ? Colors.white : Colors.gray500
+          }
           style={{ backgroundColor: Colors.white }}
         ></Avatar.Icon>
       </Pressable>

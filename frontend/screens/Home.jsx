@@ -5,16 +5,16 @@ import Header from "../components/Header";
 
 const Home = () => {
   return (
-    <View style={defaultStyles}>
-      <SafeAreaView>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <View style={defaultStyles}>
         {/* Header */}
-        <Header back={true}></Header>
+        <Header></Header>
         <View>
           <Text style={{ fontSize: 25 }}>Our</Text>
           <Text style={{ fontSize: 25, fontWeight: 900 }}>Products</Text>
         </View>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
