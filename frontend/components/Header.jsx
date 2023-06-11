@@ -1,4 +1,4 @@
-import { ddPressable, Platform } from "react-native";
+import { Pressable, Platform } from "react-native";
 import React from "react";
 import { Avatar } from "react-native-paper";
 import { Colors } from "../styles/styles";
@@ -16,12 +16,15 @@ const Header = ({ back, emptyCart = false }) => {
     <>
       {back && (
         <Pressable
-          style={{
-            position: "absolute",
-            left: 20,
-            top: Platform.OS === "android" ? 30 : 0,
-            zIndex: 10,
-          }}
+          style={({ pressed }) => [
+            {
+              position: "absolute",
+              left: 20,
+              top: Platform.OS === "android" ? 30 : 0,
+              zIndex: 10,
+            },
+            pressed ? { opacity: 0.7 } : null,
+          ]}
           onPress={() => navigation.goBack()}
         >
           <Avatar.Icon
@@ -35,12 +38,15 @@ const Header = ({ back, emptyCart = false }) => {
       )}
 
       <Pressable
-        style={{
-          position: "absolute",
-          right: 20,
-          top: Platform.OS === "android" ? 30 : 0,
-          zIndex: 10,
-        }}
+        style={({ pressed }) => [
+          {
+            position: "absolute",
+            right: 20,
+            top: Platform.OS === "android" ? 30 : 0,
+            zIndex: 10,
+          },
+          pressed ? { opacity: 0.7 } : null,
+        ]}
         onPress={
           emptyCart ? emptyCartHandler : () => navigation.navigate("cart")
         }
@@ -50,7 +56,7 @@ const Header = ({ back, emptyCart = false }) => {
           color={
             route.name === "productDetails" ? Colors.white : Colors.gray500
           }
-          style={{ backgroundColor: Colors.white }}
+          style={{ backgroundColor: Colors.transparent }}
         ></Avatar.Icon>
       </Pressable>
     </>
