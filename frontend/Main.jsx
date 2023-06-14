@@ -12,6 +12,11 @@ import Login from "./screens/Login";
 import ForgetPassword from "./screens/ForgetPassword";
 import Verify from "./screens/Verify";
 import SignUp from "./screens/SignUp";
+import Profile from "./screens/Profile";
+import UpdateProfile from "./screens/UpdateProfile";
+import ChangePassword from "./screens/ChangePassword";
+import Orders from "./screens/Orders";
+import AdminPanel from "./screens/AdminPanel";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +48,17 @@ const Main = () => {
           ></Stack.Screen>
           <Stack.Screen name="verify" component={Verify}></Stack.Screen>
           <Stack.Screen name="signUp" component={SignUp}></Stack.Screen>
+          <Stack.Screen name="profile" component={Profile}></Stack.Screen>
+          <Stack.Screen
+            name="updateProfile"
+            component={UpdateProfile}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="changePassword"
+            component={ChangePassword}
+          ></Stack.Screen>
+          <Stack.Screen name="orders" component={Orders}></Stack.Screen>
+          <Stack.Screen name="adminPanel" component={AdminPanel}></Stack.Screen>
         </Stack.Group>
       </Stack.Navigator>
       <Toast position="top"></Toast>

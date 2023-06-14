@@ -6,7 +6,7 @@ import { Avatar } from "react-native-paper";
 
 const Footer = ({ activeRoute = "home" }) => {
   const navigation = useNavigation();
-  const isAuthenticated = false;
+  const isAuthenticated = true;
   const loading = false;
 
   const NavigationHandler = (key) => {
@@ -50,7 +50,15 @@ const Footer = ({ activeRoute = "home" }) => {
 
         <Pressable onPress={() => NavigationHandler(2)}>
           <Avatar.Icon
-            icon={activeRoute === "profile" ? "account" : "account-outline"}
+            icon={
+              isAuthenticated === true
+                ? activeRoute === "profile"
+                  ? "login"
+                  : "login-variant"
+                : activeRoute === "profile"
+                ? "account"
+                : "account-outline"
+            }
             {...avatarOptions}
           ></Avatar.Icon>
         </Pressable>
