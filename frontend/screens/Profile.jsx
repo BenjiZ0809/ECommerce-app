@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { defaultStyles, formHeading, Colors } from "../styles/styles";
 import { Avatar, Button } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import ButtonBox from "../components/ButtonBox";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
@@ -16,6 +16,8 @@ const loading = false;
 
 const Profile = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+
   const [avatar, setAvatar] = useState(null);
 
   const logoutHandler = () => {
@@ -44,6 +46,13 @@ const Profile = () => {
     }
   };
 
+  useEffect(() => {
+    if (route.params?.image) {
+      setAvatar(route.params.image);
+      //dispatch update picture action
+    }
+  }, [route.params]);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
       <View style={defaultStyles}>
@@ -67,7 +76,7 @@ const Profile = () => {
 
               <Pressable
                 onPress={() =>
-                  navigation.navigate("camera", { updateprofile: true })
+                  navigation.navigate("camera", { updateProfile: true })
                 }
               >
                 <Button textColor={Colors.primary500}>Change Photo</Button>

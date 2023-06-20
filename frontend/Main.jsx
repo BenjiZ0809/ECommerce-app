@@ -16,7 +16,13 @@ import Profile from "./screens/Profile";
 import UpdateProfile from "./screens/UpdateProfile";
 import ChangePassword from "./screens/ChangePassword";
 import Orders from "./screens/Orders";
-import AdminPanel from "./screens/AdminPanel";
+import AdminPanel from "./screens/Admin/AdminPanel";
+import Categories from "./screens/Admin/Categories";
+import AdminOrders from "./screens/Admin/AdminOrders";
+import UpdateProduct from "./screens/Admin/UpdateProduct";
+import NewProduct from "./screens/Admin/NewProduct";
+import ProductImages from "./screens/Admin/ProductImages";
+import Camera from "./screens/Camera";
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +55,9 @@ const Main = () => {
           <Stack.Screen name="verify" component={Verify}></Stack.Screen>
           <Stack.Screen name="signUp" component={SignUp}></Stack.Screen>
           <Stack.Screen name="profile" component={Profile}></Stack.Screen>
+          <Stack.Screen name="camera" component={Camera}></Stack.Screen>
+
+          {/* Password Reset Routes */}
           <Stack.Screen
             name="updateProfile"
             component={UpdateProfile}
@@ -58,7 +67,25 @@ const Main = () => {
             component={ChangePassword}
           ></Stack.Screen>
           <Stack.Screen name="orders" component={Orders}></Stack.Screen>
+
+          {/* Admin Routes */}
           <Stack.Screen name="adminPanel" component={AdminPanel}></Stack.Screen>
+          <Stack.Screen name="categories" component={Categories}></Stack.Screen>
+          <Stack.Screen
+            name="updateProduct"
+            component={UpdateProduct}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="adminOrders"
+            component={AdminOrders}
+          ></Stack.Screen>
+          <Stack.Screen name="newProduct" component={NewProduct}></Stack.Screen>
+          <Stack.Screen
+            name="productImages"
+            component={ProductImages}
+          ></Stack.Screen>
+
+          {/* Product Image remaining */}
         </Stack.Group>
       </Stack.Navigator>
       <Toast position="top"></Toast>

@@ -51,7 +51,7 @@ const Footer = ({ activeRoute = "home" }) => {
         <Pressable onPress={() => NavigationHandler(2)}>
           <Avatar.Icon
             icon={
-              isAuthenticated === true
+              isAuthenticated === false
                 ? activeRoute === "profile"
                   ? "login"
                   : "login-variant"

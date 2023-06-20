@@ -7,7 +7,7 @@ import Loader from "../components/Loader";
 import { Headline } from "react-native-paper";
 import OrderItem from "../components/OrderItem";
 
-const orders = [
+export const orders = [
   {
     _id: "adsasd",
     shippingInfo: {

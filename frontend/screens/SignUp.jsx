@@ -6,7 +6,7 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Colors,
   defaultStyles,
@@ -41,6 +41,12 @@ const SignUp = () => {
     alert("Login");
     navigation.navigate("verify");
   };
+
+  useEffect(() => {
+    if (route.params?.image) {
+      setAvatar(route.params.image);
+    }
+  }, [route.params]);
 
   return (
     <>
