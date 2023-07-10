@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StatusBar, Platform } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./screens/Home";
@@ -23,74 +23,109 @@ import UpdateProduct from "./screens/Admin/UpdateProduct";
 import NewProduct from "./screens/Admin/NewProduct";
 import ProductImages from "./screens/Admin/ProductImages";
 import Camera from "./screens/Camera";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUser } from "./redux/actions/userActions";
 
 const Stack = createNativeStackNavigator();
 
 const Main = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="home"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Group>
-          <Stack.Screen name="home" component={Home}></Stack.Screen>
-          <Stack.Screen
-            name="productDetails"
-            component={ProductDetails}
-          ></Stack.Screen>
-          <Stack.Screen name="cart" component={Cart}></Stack.Screen>
-          <Stack.Screen
-            name="confirmOrder"
-            component={ConfirmOrder}
-          ></Stack.Screen>
-          <Stack.Screen name="payment" component={Payment}></Stack.Screen>
-          <Stack.Screen name="login" component={Login}></Stack.Screen>
-          <Stack.Screen
-            name="forgetPassword"
-            component={ForgetPassword}
-          ></Stack.Screen>
-          <Stack.Screen name="verify" component={Verify}></Stack.Screen>
-          <Stack.Screen name="signUp" component={SignUp}></Stack.Screen>
-          <Stack.Screen name="profile" component={Profile}></Stack.Screen>
-          <Stack.Screen name="camera" component={Camera}></Stack.Screen>
+    const dispatch = useDispatch();
 
-          {/* Password Reset Routes */}
-          <Stack.Screen
-            name="updateProfile"
-            component={UpdateProfile}
-          ></Stack.Screen>
-          <Stack.Screen
-            name="changePassword"
-            component={ChangePassword}
-          ></Stack.Screen>
-          <Stack.Screen name="orders" component={Orders}></Stack.Screen>
+    useEffect(() => {
+        dispatch(loadUser());
+    }, [dispatch]);
 
-          {/* Admin Routes */}
-          <Stack.Screen name="adminPanel" component={AdminPanel}></Stack.Screen>
-          <Stack.Screen name="categories" component={Categories}></Stack.Screen>
-          <Stack.Screen
-            name="updateProduct"
-            component={UpdateProduct}
-          ></Stack.Screen>
-          <Stack.Screen
-            name="adminOrders"
-            component={AdminOrders}
-          ></Stack.Screen>
-          <Stack.Screen name="newProduct" component={NewProduct}></Stack.Screen>
-          <Stack.Screen
-            name="productImages"
-            component={ProductImages}
-          ></Stack.Screen>
+    return (
+        <NavigationContainer>
+            <Stack.Navigator
+                initialRouteName="home"
+                screenOptions={{
+                    headerShown: false,
+                }}
+            >
+                <Stack.Group>
+                    <Stack.Screen name="home" component={Home}></Stack.Screen>
+                    <Stack.Screen
+                        name="productDetails"
+                        component={ProductDetails}
+                    ></Stack.Screen>
+                    <Stack.Screen name="cart" component={Cart}></Stack.Screen>
+                    <Stack.Screen
+                        name="confirmOrder"
+                        component={ConfirmOrder}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="payment"
+                        component={Payment}
+                    ></Stack.Screen>
+                    <Stack.Screen name="login" component={Login}></Stack.Screen>
+                    <Stack.Screen
+                        name="forgetPassword"
+                        component={ForgetPassword}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="verify"
+                        component={Verify}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="signUp"
+                        component={SignUp}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="profile"
+                        component={Profile}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="camera"
+                        component={Camera}
+                    ></Stack.Screen>
 
-          {/* Product Image remaining */}
-        </Stack.Group>
-      </Stack.Navigator>
-      <Toast position="top"></Toast>
-    </NavigationContainer>
-  );
+                    {/* Password Reset Routes */}
+                    <Stack.Screen
+                        name="updateProfile"
+                        component={UpdateProfile}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="changePassword"
+                        component={ChangePassword}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="orders"
+                        component={Orders}
+                    ></Stack.Screen>
+
+                    {/* Admin Routes */}
+                    <Stack.Screen
+                        name="adminPanel"
+                        component={AdminPanel}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="categories"
+                        component={Categories}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="updateProduct"
+                        component={UpdateProduct}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="adminOrders"
+                        component={AdminOrders}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="newProduct"
+                        component={NewProduct}
+                    ></Stack.Screen>
+                    <Stack.Screen
+                        name="productImages"
+                        component={ProductImages}
+                    ></Stack.Screen>
+
+                    {/* Product Image remaining */}
+                </Stack.Group>
+            </Stack.Navigator>
+            <Toast position="top"></Toast>
+        </NavigationContainer>
+    );
 };
 
 export default Main;
