@@ -96,7 +96,7 @@ export const updateProfile =
 
       dispatch({
         type: "updateProfileSuccess",
-        payload: data.message,
+        payload: "Successfully updated profile",
       });
     } catch (error) {
       dispatch({
