@@ -2,42 +2,44 @@ import { useSelector } from "react-redux";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { useEffect } from "react";
 import { loadUser } from "../redux/actions/userActions";
+import axios from "axios";
+import { server } from "../redux/store";
 
 export const useMessageAndErrorFromUser = (
-    navigation,
-    dispatch,
-    navigateTo = "login"
+  navigation,
+  dispatch,
+  navigateTo = "login"
 ) => {
-    const { loading, message, error } = useSelector((state) => state.user);
+  const { loading, message, error } = useSelector((state) => state.user);
 
-    useEffect(() => {
-        if (error) {
-            Toast.show({
-                type: "error",
-                text1: error,
-            });
-            dispatch({
-                type: "clearError",
-            });
-        }
+  useEffect(() => {
+    if (error) {
+      Toast.show({
+        type: "error",
+        text1: error,
+      });
+      dispatch({
+        type: "clearError",
+      });
+    }
 
-        if (message) {
-            navigation.reset({
-                index: 0,
-                routes: [{ name: navigateTo }],
-            });
-            Toast.show({
-                type: "success",
-                text1: message,
-            });
-            dispatch({
-                type: "clearMessage",
-            });
-            dispatch(loadUser());
-        }
-    }, [error, message, dispatch]);
+    if (message) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: navigateTo }],
+      });
+      Toast.show({
+        type: "success",
+        text1: message,
+      });
+      dispatch({
+        type: "clearMessage",
+      });
+      dispatch(loadUser());
+    }
+  }, [error, message, dispatch]);
 
-    return loading;
+  return loading;
 };
 
 // export const useMessageAndErrorOther = (
@@ -75,38 +77,54 @@ export const useMessageAndErrorFromUser = (
 //     return loading;
 // };
 export const useMessageAndErrorOther = (
-    dispatch,
-    navigation,
-    navigateTo,
-    func
+  dispatch,
+  navigation,
+  navigateTo,
+  func
 ) => {
-    const { loading, message, error } = useSelector((state) => state.other);
+  const { loading, message, error } = useSelector((state) => state.other);
 
-    useEffect(() => {
-        if (error) {
-            Toast.show({
-                type: "error",
-                text1: error,
-            });
-            dispatch({
-                type: "clearError",
-            });
-        }
+  useEffect(() => {
+    if (error) {
+      Toast.show({
+        type: "error",
+        text1: error,
+      });
+      dispatch({
+        type: "clearError",
+      });
+    }
 
-        if (message) {
-            Toast.show({
-                type: "success",
-                text1: message,
-            });
-            dispatch({
-                type: "clearMessage",
-            });
+    if (message) {
+      Toast.show({
+        type: "success",
+        text1: message,
+      });
+      dispatch({
+        type: "clearMessage",
+      });
 
-            navigateTo && navigation.navigate(navigateTo);
+      navigateTo && navigation.navigate(navigateTo);
 
-            func && dispatch(func());
-        }
-    }, [error, message, dispatch]);
+      func && dispatch(func());
+    }
+  }, [error, message, dispatch]);
 
-    return loading;
+  return loading;
+};
+
+export const useSetCategories = (setCategories, isFocused) => {
+  useEffect(() => {
+    axios
+      .get(`${server}/product/categories`)
+      .then((res) => {
+        setCategories(res.data.categories);
+      })
+      .catch((e) => {
+        Toast.show({
+          type: "error",
+          text1: e.response.data.message,
+        });
+      });
+  }, [isFocused]);
 };

@@ -7,38 +7,47 @@ import {
   Image,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { defaultStyles } from "../styles/styles";
 import { Colors } from "../styles/styles";
 import Header from "../components/Header";
 import Carousel from "react-native-snap-carousel";
 import { Avatar, Button } from "react-native-paper";
 import Toast from "react-native-toast-message";
+import { useDispatch, useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+import { getProductDetails } from "../redux/actions/productAction";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 const ITEM_WIDTH = SLIDER_WIDTH;
 
 const ProductDetails = ({ route: { params } }) => {
+  const {
+    product: { name, price, stock, description, images },
+  } = useSelector((state) => state.product);
   console.log(params.id);
   const [quantity, setQuantity] = useState(1);
   const isCarousel = React.useRef(null);
 
-  const name = "Mac";
-  const price = 1000;
-  const stock = 19;
-  const description =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia fugiat illo dolorem odit in. Modi impedit esse tempora laboriosam, eaque voluptate soluta aliquid quis voluptates, quam corrupti, provident adipisci quae?";
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
-  const images = [
-    {
-      id: "adasd",
-      url: "https://m.media-amazon.com/images/I/51MD06eYJvL._MCnd_AC_.jpg",
-    },
-    {
-      id: "1wreth",
-      url: "https://images-na.ssl-images-amazon.com/images/G/01/AMAZON_FASHION/2023/MISC/STANLEY/CategoryCard_1x_d_Stanley._SY304_CB588619800_.jpg",
-    },
-  ];
+  // const name = "Mac";
+  // const price = 1000;
+  // const stock = 19;
+  // const description =
+  //   "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia fugiat illo dolorem odit in. Modi impedit esse tempora laboriosam, eaque voluptate soluta aliquid quis voluptates, quam corrupti, provident adipisci quae?";
+
+  // const images = [
+  //   {
+  //     id: "adasd",
+  //     url: "https://m.media-amazon.com/images/I/51MD06eYJvL._MCnd_AC_.jpg",
+  //   },
+  //   {
+  //     id: "1wreth",
+  //     url: "https://images-na.ssl-images-amazon.com/images/G/01/AMAZON_FASHION/2023/MISC/STANLEY/CategoryCard_1x_d_Stanley._SY304_CB588619800_.jpg",
+  //   },
+  // ];
 
   const incrementQty = () => {
     if (quantity >= stock) return;
@@ -59,6 +68,10 @@ const ProductDetails = ({ route: { params } }) => {
       text1: "Added to cart",
     });
   };
+
+  useEffect(() => {
+    dispatch(getProductDetails(params.id));
+  }, [dispatch, isFocused, params.id]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.primary500 }}>

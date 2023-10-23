@@ -21,6 +21,7 @@ export const updatePassword =
           withCredentials: true,
         }
       );
+
       dispatch({
         type: "updatePasswordSuccess",
         payload: data.message,
@@ -94,13 +95,14 @@ export const updateProfile =
         }
       );
 
+      console.log(data);
       dispatch({
         type: "updateProfileSuccess",
-        payload: "Successfully updated profile",
+        payload: data.message,
       });
     } catch (error) {
       dispatch({
-        type: "updateProfileFail",
+        type: "updatePasswordFail",
         payload: error.response.data.message,
       });
     }
