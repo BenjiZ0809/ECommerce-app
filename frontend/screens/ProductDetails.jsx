@@ -58,14 +58,25 @@ const ProductDetails = ({ route: { params } }) => {
     setQuantity((prev) => prev - 1);
   };
   const addToCartHandler = () => {
-    if (stock <= 0)
+    if (stock === 0)
       return Toast.show({
         type: "error",
-        text1: "Out of stock",
+        text1: "Out of Stock",
       });
+    dispatch({
+      type: "addToCart",
+      payload: {
+        product: params.id,
+        name,
+        price,
+        image: images[0]?.url,
+        stock,
+        quantity,
+      },
+    });
     Toast.show({
       type: "success",
-      text1: "Added to cart",
+      text1: "Added to Cart",
     });
   };
 

@@ -17,12 +17,12 @@ const ProductCard = ({
     <Pressable onPress={() => navigation.navigate("productDetails", { id })}>
       <View
         style={{
-          elevation: 5,
+          elevation: 15,
           shadowColor: Colors.gray500,
           shadowOffset: { width: 0, height: 2 },
           shadowRadius: 2,
           shadowOpacity: 0.5,
-          width: 220,
+          width: 250,
           alignItems: "center",
           justifyContent: "space-between",
           margin: 20,
@@ -56,6 +56,7 @@ const ProductCard = ({
               color: i % 2 === 0 ? Colors.white : Colors.gray500,
               fontSize: 25,
               fontWeight: 300,
+              width: "60%",
             }}
           >
             {name}
@@ -76,6 +77,7 @@ const ProductCard = ({
           style={{
             backgroundColor: i % 2 === 0 ? Colors.white : Colors.gray500,
             borderRadius: 0,
+            paddingVertical: 5,
             borderBottomRightRadius: 20,
             borderBottomLeftRadius: 20,
             width: "100%",
@@ -83,7 +85,7 @@ const ProductCard = ({
         >
           <Button
             textColor={i % 2 === 0 ? Colors.primary500 : Colors.white}
-            onPress={() => addToCartHandler(id, stock)}
+            onPress={() => addToCartHandler(id, name, price, image, stock)}
           >
             {" "}
             Add To Cart

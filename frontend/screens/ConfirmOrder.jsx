@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, Pressable, SafeAreaView } from "react-native";
-import React from "react";
-import { cartItems } from "./Cart";
+import React, { useState } from "react";
+//import { cartItems } from "./Cart";
 import { defaultStyles } from "../styles/styles";
 import Header from "../components/Header";
 import Heading from "../components/Heading";
@@ -8,14 +8,19 @@ import ConfirmOrderItem from "../components/ConfirmOrderItem";
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "react-native-paper";
 import { Colors } from "../styles/styles";
+import { useSelector } from "react-redux";
 
 const ConfirmOrder = () => {
   const navigation = useNavigation();
 
-  const itemsPrice = 500;
-  const shipping = 10;
-  const tax = 0.0875 * itemsPrice;
-  const total = itemsPrice + shipping + tax;
+  const { cartItems } = useSelector((state) => state.cart);
+
+  const [itemsPrice] = useState(
+    cartItems.reduce((prev, curr) => prev + curr.quantity * curr.price, 0)
+  );
+  const [shipping] = useState(itemsPrice > 99 ? 0 : 10);
+  const [tax] = useState(Number((0.0875 * itemsPrice).toFixed(2)));
+  const [total] = useState(itemsPrice + shipping + tax);
 
   return (
     <SafeAreaView

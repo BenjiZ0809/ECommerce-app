@@ -65,17 +65,17 @@ const CartItem = ({
           ${amount}
         </Text>
       </View>
-      <View style={styles.qrtContainer}>
+      <View style={styles.qtyContainer}>
         <Pressable
           style={({ pressed }) => [pressed && { opacity: 0.5 }]}
-          onPress={() => decrementHandler(id, qty)}
+          onPress={() => decrementHandler(id, name, amount, imgSrc, stock, qty)}
         >
           <Avatar.Icon icon="minus" {...iconOptions}></Avatar.Icon>
         </Pressable>
         <Text style={styles.qtyText}>{qty}</Text>
         <Pressable
           style={({ pressed }) => [pressed && { opacity: 0.5 }]}
-          onPress={() => incrementHandler(id, qty, stock)}
+          onPress={() => incrementHandler(id, name, amount, imgSrc, stock, qty)}
         >
           <Avatar.Icon icon="plus" {...iconOptions}></Avatar.Icon>
         </Pressable>
