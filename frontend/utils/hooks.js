@@ -156,29 +156,29 @@ export const useGetOrders = (isFocused, isAdmin = false) => {
   };
 };
 
-// export const useAdminProducts = (dispatch, isFocused) => {
-//   const { products, inStock, outOfStock, error, loading } = useSelector(
-//     (state) => state.product
-//   );
+export const useAdminProducts = (dispatch, isFocused) => {
+  const { products, inStock, outOfStock, error, loading } = useSelector(
+    (state) => state.product
+  );
 
-//   useEffect(() => {
-//     if (error) {
-//       Toast.show({
-//         type: "error",
-//         text1: error,
-//       });
-//       dispatch({
-//         type: "clearError",
-//       });
-//     }
+  useEffect(() => {
+    if (error) {
+      Toast.show({
+        type: "error",
+        text1: error,
+      });
+      dispatch({
+        type: "clearError",
+      });
+    }
 
-//     dispatch(getAdminProducts());
-//   }, [dispatch, isFocused, error]);
+    dispatch(getAdminProducts());
+  }, [dispatch, isFocused, error]);
 
-//   return {
-//     products,
-//     inStock,
-//     outOfStock,
-//     loading,
-//   };
-// };
+  return {
+    products,
+    inStock,
+    outOfStock,
+    loading,
+  };
+};

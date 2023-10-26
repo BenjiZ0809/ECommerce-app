@@ -12,16 +12,14 @@ import { useAdminProducts } from "../../utils/hooks";
 import { useDispatch } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 
-const products = [];
-
 const AdminPanel = ({ navigation }) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-  const loading = false;
-  // const { loading, products, inStock, outOfStock } = useAdminProducts(
-  //   dispatch,
-  //   isFocused
-  // );
+
+  const { loading, products, inStock, outOfStock } = useAdminProducts(
+    dispatch,
+    isFocused
+  );
 
   const navigationHandler = (text) => {
     switch (text) {

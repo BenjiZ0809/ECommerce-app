@@ -5,7 +5,7 @@ import { getDataUri } from "../utils/features.js";
 import cloudinary from "cloudinary";
 import { Category } from "../models/category.js";
 
-export const getAllProducts = async (req, res, next) => {
+export const getAllProducts = asyncError(async (req, res, next) => {
   //search & category query
   const { keyword, category } = req.query;
 
@@ -18,7 +18,7 @@ export const getAllProducts = async (req, res, next) => {
     success: true,
     products,
   });
-};
+});
 
 export const getProductDetails = asyncError(async (req, res, next) => {
   const product = await Product.findById(req.params.id).populate("category");
