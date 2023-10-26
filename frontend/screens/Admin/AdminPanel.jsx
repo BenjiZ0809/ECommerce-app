@@ -6,12 +6,23 @@ import Heading from "../../components/Heading";
 import Loader from "../../components/Loader";
 import ButtonBox from "../../components/ButtonBox";
 import ProductListHeading from "../../components/ProductListHeading";
-import { products } from "../Home";
 import ProductListItem from "../../components/ProductListItem";
 import Chart from "../../components/Chart";
+import { useAdminProducts } from "../../utils/hooks";
+import { useDispatch } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+
+const products = [];
 
 const AdminPanel = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const loading = false;
+  // const { loading, products, inStock, outOfStock } = useAdminProducts(
+  //   dispatch,
+  //   isFocused
+  // );
+
   const navigationHandler = (text) => {
     switch (text) {
       case "Category":
@@ -98,7 +109,7 @@ const AdminPanel = ({ navigation }) => {
                       price={item.price}
                       stock={item.stock}
                       name={item.name}
-                      category={item.category}
+                      category={item.category?.category}
                       imgSrc={item.images[0].url}
                     ></ProductListItem>
                   );

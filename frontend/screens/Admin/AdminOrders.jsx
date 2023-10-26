@@ -5,12 +5,24 @@ import Header from "../../components/Header";
 import Loader from "../../components/Loader";
 import { orders } from "../Orders";
 import OrderItem from "../../components/OrderItem";
+import { useGetOrders, useMessageAndErrorFromUser } from "../../utils/hooks";
+import { useIsFocused } from "@react-navigation/native";
+import { Headline } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import { processOrder } from "../../redux/actions/otherAction";
 
-const AdminOrders = () => {
-  const loading = false;
-  const processOrderLoading = false;
-
-  const updateHandler = (id, status) => {};
+const AdminOrders = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+  const { loading, orders } = useGetOrders(isFocused, true);
+  const processOrderLoading = useMessageAndErrorFromUser(
+    dispatch,
+    navigation,
+    "adminpanel"
+  );
+  const updateHandler = (id) => {
+    dispatch(processOrder(id));
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white500 }}>

@@ -50,7 +50,8 @@ const ProductDetails = ({ route: { params } }) => {
   // ];
 
   const incrementQty = () => {
-    if (quantity >= stock) return;
+    if (quantity >= stock)
+      return Toast.show({ type: "error", text1: "Max quantity added" });
     setQuantity((prev) => prev + 1);
   };
   const decrementQty = () => {

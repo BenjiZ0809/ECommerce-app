@@ -63,7 +63,7 @@ const ConfirmOrder = () => {
 
         <Pressable
           onPress={() =>
-            navigation.navigate("payment", itemsPrice, shipping, tax, total)
+            navigation.navigate("payment", { itemsPrice, shipping, tax, total })
           }
         >
           <Button
