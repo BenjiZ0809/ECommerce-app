@@ -6,11 +6,13 @@ import cloudinary from "cloudinary";
 import { Category } from "../models/category.js";
 
 export const getAllProducts = asyncError(async (req, res, next) => {
-  //search & category query
   const { keyword, category } = req.query;
 
   const products = await Product.find({
-    name: { $regex: keyword ? keyword : "", $options: "i" },
+    name: {
+      $regex: keyword ? keyword : "",
+      $options: "i",
+    },
     category: category ? category : undefined,
   });
 
