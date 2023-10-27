@@ -17,32 +17,58 @@ import {
 } from "../../styles/styles";
 import Loader from "../../components/Loader";
 import { Button, TextInput, Avatar } from "react-native-paper";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import SelectComponent from "../../components/SelectComponent";
+import { useMessageAndErrorOther, useSetCategories } from "../../utils/hooks";
+import { useDispatch } from "react-redux";
+import mime from "mime";
+import { createProduct } from "../../redux/actions/otherAction";
 
 const NewProduct = ({}) => {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const loading = false;
-
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState("");
-  const [category, setCategory] = useState("Laptop");
-  const [categoryId, setCategoryId] = useState("");
-  const [categories, setCategories] = useState([
-    { _id: "adwdw", category: "Laptop" },
-    { _id: "ad123wdw", category: "Footwear" },
-    { _id: "1235asdfdwdw", category: "Cloth" },
-  ]);
-  const [visible, setVisible] = useState(false);
+  const [category, setCategory] = useState("Select Category");
+  const [categoryId, setCategoryId] = useState(undefined);
+  const [categories, setCategories] = useState([]);
+
+  useSetCategories(setCategories, isFocused);
+
+  const disableBtnCondition =
+    !name || !description || !price || !stock || !image;
 
   const submitHandler = () => {
-    console.log(name, price, description, stock, category, categoryId);
+    const myForm = new FormData();
+    myForm.append("name", name);
+    myForm.append("description", description);
+    myForm.append("price", price);
+    myForm.append("stock", stock);
+    myForm.append("file", {
+      uri: image,
+      type: mime.getType(image),
+      name: image.split("/").pop,
+    });
+
+    if (categoryId) {
+      myForm.append("category", categoryId);
+    }
+
+    dispatch(createProduct(myForm));
   };
+
+  const loading = useMessageAndErrorOther(dispatch, navigation, "adminPanel");
 
   useEffect(() => {
     if (route.params?.image) {
@@ -60,127 +86,121 @@ const NewProduct = ({}) => {
           <Text style={{ ...formHeading }}>New Product</Text>
         </View>
 
-        {loading ? (
-          <Loader></Loader>
-        ) : (
-          <>
-            <ScrollView
+        <ScrollView
+          style={{
+            padding: 20,
+            elevation: 10,
+            shadowColor: Colors.gray500,
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.5,
+            shadowRadius: 2,
+            backgroundColor: Colors.gray500,
+            borderRadius: 10,
+          }}
+        >
+          <View
+            style={{
+              justifyContent: "center",
+              height: 650,
+            }}
+          >
+            <View
               style={{
-                padding: 20,
-                elevation: 10,
-                shadowColor: Colors.gray500,
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.5,
-                shadowRadius: 2,
-                backgroundColor: Colors.gray500,
-                borderRadius: 10,
+                width: 80,
+                height: 80,
+                alignSelf: "center",
+                marginBottom: 20,
               }}
             >
-              <View
+              <Avatar.Image
+                size={80}
                 style={{
-                  justifyContent: "center",
-                  height: 650,
+                  backgroundColor: Colors.primary500,
                 }}
+                source={{ uri: image ? image : null }}
+              ></Avatar.Image>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("camera", { newProduct: true })
+                }
+                style={({ pressed }) => [pressed && { opacity: 0.5 }]}
               >
-                <View
+                <Avatar.Icon
+                  icon="camera"
+                  size={30}
+                  color={Colors.gray500}
                   style={{
-                    width: 80,
-                    height: 80,
-                    alignSelf: "center",
-                    marginBottom: 20,
+                    backgroundColor: Colors.white500,
+                    position: "absolute",
+                    bottom: 0,
+                    right: -5,
                   }}
-                >
-                  <Avatar.Image
-                    size={80}
-                    style={{
-                      backgroundColor: Colors.primary500,
-                    }}
-                    source={{ uri: image ? image : null }}
-                  ></Avatar.Image>
-                  <Pressable
-                    onPress={() =>
-                      navigation.navigate("camera", { newProduct: true })
-                    }
-                    style={({ pressed }) => [pressed && { opacity: 0.5 }]}
-                  >
-                    <Avatar.Icon
-                      icon="camera"
-                      size={30}
-                      color={Colors.gray500}
-                      style={{
-                        backgroundColor: Colors.white500,
-                        position: "absolute",
-                        bottom: 0,
-                        right: -5,
-                      }}
-                    ></Avatar.Icon>
-                  </Pressable>
-                </View>
+                ></Avatar.Icon>
+              </Pressable>
+            </View>
 
-                <TextInput
-                  style={inputStyles}
-                  {...inputOptions}
-                  placeholder="Name"
-                  value={name}
-                  onChangeText={setName}
-                ></TextInput>
+            <TextInput
+              style={inputStyles}
+              {...inputOptions}
+              placeholder="Name"
+              value={name}
+              onChangeText={setName}
+            ></TextInput>
 
-                <TextInput
-                  style={inputStyles}
-                  {...inputOptions}
-                  placeholder="Description"
-                  value={description}
-                  onChangeText={setDescription}
-                ></TextInput>
+            <TextInput
+              style={inputStyles}
+              {...inputOptions}
+              placeholder="Description"
+              value={description}
+              onChangeText={setDescription}
+            ></TextInput>
 
-                <TextInput
-                  style={inputStyles}
-                  {...inputOptions}
-                  placeholder="Price"
-                  keyboardType="number-pad"
-                  value={price}
-                  onChangeText={setPrice}
-                ></TextInput>
+            <TextInput
+              style={inputStyles}
+              {...inputOptions}
+              placeholder="Price"
+              keyboardType="number-pad"
+              value={price}
+              onChangeText={setPrice}
+            ></TextInput>
 
-                <TextInput
-                  style={inputStyles}
-                  {...inputOptions}
-                  placeholder="Stock"
-                  keyboardType="number-pad"
-                  value={stock}
-                  onChangeText={setStock}
-                ></TextInput>
+            <TextInput
+              style={inputStyles}
+              {...inputOptions}
+              placeholder="Stock"
+              keyboardType="number-pad"
+              value={stock}
+              onChangeText={setStock}
+            ></TextInput>
 
-                <Text
-                  style={{
-                    ...inputStyles,
-                    textAlignVertical: "center",
-                    textAlign: "center",
-                    borderRadius: 3,
-                    paddingTop: Platform.OS === "ios" ? 15 : 0,
-                  }}
-                  onPress={() => setVisible(true)}
-                >
-                  {category}
-                </Text>
+            <Text
+              style={{
+                ...inputStyles,
+                textAlignVertical: "center",
+                textAlign: "center",
+                borderRadius: 3,
+                paddingTop: Platform.OS === "ios" ? 15 : 0,
+              }}
+              onPress={() => setVisible(true)}
+            >
+              {category}
+            </Text>
 
-                <Button
-                  textColor={Colors.white}
-                  style={{
-                    backgroundColor: Colors.primary500,
-                    margin: 20,
-                    padding: 6,
-                  }}
-                  onPress={submitHandler}
-                  loading={loading}
-                  disabled={loading}
-                >
-                  Create
-                </Button>
-              </View>
-            </ScrollView>
-          </>
-        )}
+            <Button
+              textColor={Colors.white}
+              style={{
+                backgroundColor: Colors.primary500,
+                margin: 20,
+                padding: 6,
+              }}
+              onPress={submitHandler}
+              loading={loading}
+              disabled={disableBtnCondition || loading}
+            >
+              Create
+            </Button>
+          </View>
+        </ScrollView>
       </View>
       <SelectComponent
         visible={visible}

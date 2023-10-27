@@ -63,7 +63,7 @@ const AdminPanel = ({ navigation }) => {
                 alignItems: "center",
               }}
             >
-              <Chart inStock={12} outOfStock={2}></Chart>
+              <Chart inStock={inStock} outOfStock={outOfStock}></Chart>
             </View>
             <View
               style={{

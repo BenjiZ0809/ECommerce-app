@@ -85,7 +85,7 @@ const Orders = () => {
                       status={item.orderStatus}
                       paymentMethod={item.paymentMethod}
                       orderOn={item.createdAt.split("T")[0]}
-                      address={`${item.shippingInfo.address},${item.shippingInfo.City},${item.shippingInfo.Country},${item.shippingInfo.zipCode}}`}
+                      address={`${item.shippingInfo.address},${item.shippingInfo.city},${item.shippingInfo.country},${item.shippingInfo.zipCode}`}
                       admin={true}
                     ></OrderItem>
                   );

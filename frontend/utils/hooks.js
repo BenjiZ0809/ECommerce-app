@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { useEffect, useState } from "react";
 import { loadUser } from "../redux/actions/userActions";
@@ -157,7 +157,7 @@ export const useGetOrders = (isFocused, isAdmin = false) => {
 };
 
 export const useAdminProducts = (dispatch, isFocused) => {
-  const { products, inStock, outOfStock, error, loading } = useSelector(
+  const { inStock, outOfStock, products, error, loading } = useSelector(
     (state) => state.product
   );
 

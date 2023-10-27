@@ -3,7 +3,7 @@ import React from "react";
 import { Colors, defaultStyles, formHeading } from "../../styles/styles";
 import Header from "../../components/Header";
 import Loader from "../../components/Loader";
-import { orders } from "../Orders";
+//import { orders } from "../Orders";
 import OrderItem from "../../components/OrderItem";
 import { useGetOrders, useMessageAndErrorFromUser } from "../../utils/hooks";
 import { useIsFocused } from "@react-navigation/native";

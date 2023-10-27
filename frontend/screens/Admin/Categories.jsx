@@ -15,32 +15,29 @@ import {
 } from "../../styles/styles";
 import Header from "../../components/Header";
 import { Avatar, TextInput, Button } from "react-native-paper";
-
-const categories = [
-  {
-    name: "Laptop",
-    _id: "asd2Atr",
-  },
-  {
-    name: "Laptop",
-    _id: "asd22234Atr",
-  },
-  {
-    name: "Laptop",
-    _id: "asd2Atxafadsfr",
-  },
-];
+import { useMessageAndErrorOther, useSetCategories } from "../../utils/hooks";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { addCategory, deleteCategory } from "../../redux/actions/otherAction";
 
 const Categories = () => {
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  useSetCategories(setCategories, isFocused);
+
+  const loading = useMessageAndErrorOther(dispatch, navigation, "adminPanel");
 
   const deleteHandler = (id) => {
-    console.log(`delete ${id}`);
+    dispatch(deleteCategory(id));
   };
 
-  const submitHandler = () => {};
-
-  const loading = false;
+  const submitHandler = () => {
+    dispatch(addCategory(category));
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white500 }}>
@@ -65,7 +62,7 @@ const Categories = () => {
           >
             {categories.map((i) => (
               <CategoryCard
-                name={i.name}
+                name={i.category}
                 id={i._id}
                 key={i._id}
                 deleteHandler={deleteHandler}

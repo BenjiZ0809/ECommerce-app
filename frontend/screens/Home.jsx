@@ -84,6 +84,11 @@ const Home = () => {
   const isFocused = useIsFocused();
   const { products } = useSelector((state) => state.product);
 
+  // var arr = [];
+  // for (let i = 0; i < products.length; i++) {
+  //   arr.push(products[i]);
+  // }
+
   const categoryButtonHandler = (id) => {
     setCategory(id);
   };
