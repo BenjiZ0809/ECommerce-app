@@ -11,18 +11,21 @@ import {
 import { TextInput, Button } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Footer from "../components/Footer";
+import { useMessageAndErrorOther } from "../utils/hooks";
+import { useDispatch } from "react-redux";
+import { resetPassword } from "../redux/actions/otherAction";
 
 const Verify = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
 
-  const loading = false;
+  const loading = useMessageAndErrorOther(dispatch, navigation, "login");
 
   const submitHandler = () => {
-    alert("Login");
-    navigation.navigate("login");
+    dispatch(resetPassword(code, password));
   };
 
   return (

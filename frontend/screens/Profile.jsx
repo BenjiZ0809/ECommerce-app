@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
-    defaultStyles,
-    formHeading,
-    Colors,
-    defaultImg,
+  defaultStyles,
+  formHeading,
+  Colors,
+  defaultImg,
 } from "../styles/styles";
 import { Avatar, Button } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -16,165 +16,167 @@ import { useMessageAndErrorFromUser } from "../utils/hooks";
 import { logout } from "../redux/actions/userActions";
 
 const Profile = () => {
-    const navigation = useNavigation();
-    const route = useRoute();
+  const navigation = useNavigation();
+  const route = useRoute();
 
-    const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
-    const [avatar, setAvatar] = useState(
-        user?.avatar ? user.avatar.url : defaultImg
-    );
+  const [avatar, setAvatar] = useState(defaultImg);
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const loading = useMessageAndErrorFromUser(navigation, dispatch, "login");
+  const loading = useMessageAndErrorFromUser(navigation, dispatch, "login");
 
-    const logoutHandler = () => {
-        dispatch(logout());
-    };
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
 
-    const navigationHandler = (text) => {
-        switch (text) {
-            case "Admin":
-                navigation.navigate("adminPanel");
-                break;
-            case "Orders":
-                navigation.navigate("orders");
-                break;
-            case "Profile":
-                navigation.navigate("updateProfile");
-                break;
-            case "Password":
-                navigation.navigate("changePassword");
-                break;
-            case "Sign Out":
-                logoutHandler();
-                break;
-            default:
-                break;
-        }
-    };
+  const navigationHandler = (text) => {
+    switch (text) {
+      case "Admin":
+        navigation.navigate("adminPanel");
+        break;
+      case "Orders":
+        navigation.navigate("orders");
+        break;
+      case "Profile":
+        navigation.navigate("updateProfile");
+        break;
+      case "Password":
+        navigation.navigate("changePassword");
+        break;
+      case "Sign Out":
+        logoutHandler();
+        break;
+      default:
+        break;
+    }
+  };
 
-    useEffect(() => {
-        if (route.params?.image) {
-            setAvatar(route.params.image);
-            //dispatch update picture action
-        }
-    }, [route.params]);
+  useEffect(() => {
+    if (route.params?.image) {
+      setAvatar(route.params.image);
+      //dispatch update picture action
+    }
+  }, [route.params]);
 
-    return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
-            <View style={defaultStyles}>
-                {/* Heading */}
-                <View style={{ marginBottom: 20 }}>
-                    <Text style={{ ...formHeading }}>Profile</Text>
-                </View>
+  useEffect(() => {
+    if (user?.avatar) {
+      setAvatar(user.avatar.url);
+    }
+  }, [user]);
 
-                {/* Loading */}
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+      <View style={defaultStyles}>
+        {/* Heading */}
+        <View style={{ marginBottom: 20 }}>
+          <Text style={{ ...formHeading }}>Profile</Text>
+        </View>
 
-                {loading ? (
-                    <Loader></Loader>
-                ) : (
-                    <>
-                        <View style={styles.container}>
-                            <Avatar.Image
-                                source={{ uri: avatar }}
-                                size={100}
-                                style={{ backgroundColor: Colors.primary500 }}
-                            ></Avatar.Image>
+        {/* Loading */}
 
-                            <Pressable
-                                onPress={() =>
-                                    navigation.navigate("camera", {
-                                        updateProfile: true,
-                                    })
-                                }
-                            >
-                                <Button textColor={Colors.primary500}>
-                                    Change Photo
-                                </Button>
-                            </Pressable>
-                            <Text style={styles.name}>{user?.name}</Text>
-                            <Text
-                                style={{
-                                    fontWeight: 300,
-                                    color: Colors.white,
-                                }}
-                            >
-                                {user?.email}
-                            </Text>
-                        </View>
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                margin: 10,
-                                justifyContent: "space-between",
-                            }}
-                        >
-                            <ButtonBox
-                                text="Orders"
-                                icon="format-list-bulleted-square"
-                                handler={navigationHandler}
-                            ></ButtonBox>
+        {loading ? (
+          <Loader></Loader>
+        ) : (
+          <>
+            <View style={styles.container}>
+              <Avatar.Image
+                source={{ uri: avatar }}
+                size={100}
+                style={{ backgroundColor: Colors.primary500 }}
+              ></Avatar.Image>
 
-                            {user?.role === "admin" && (
-                                <ButtonBox
-                                    icon="view-dashboard"
-                                    text="Admin"
-                                    reverse={true}
-                                    handler={navigationHandler}
-                                ></ButtonBox>
-                            )}
-
-                            <ButtonBox
-                                text="Profile"
-                                icon="pencil"
-                                handler={navigationHandler}
-                            ></ButtonBox>
-                        </View>
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                margin: 10,
-                                justifyContent: "space-evenly",
-                            }}
-                        >
-                            <ButtonBox
-                                text="Password"
-                                icon="format-list-bulleted-square"
-                                handler={navigationHandler}
-                            ></ButtonBox>
-                            <ButtonBox
-                                text="Sign Out"
-                                icon="exit-to-app"
-                                handler={navigationHandler}
-                            ></ButtonBox>
-                        </View>
-                    </>
-                )}
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("camera", {
+                    updateProfile: true,
+                  })
+                }
+              >
+                <Button textColor={Colors.primary500}>Change Photo</Button>
+              </Pressable>
+              <Text style={styles.name}>{user?.name}</Text>
+              <Text
+                style={{
+                  fontWeight: 300,
+                  color: Colors.white,
+                }}
+              >
+                {user?.email}
+              </Text>
             </View>
-            <Footer></Footer>
-        </SafeAreaView>
-    );
+            <View
+              style={{
+                flexDirection: "row",
+                margin: 10,
+                justifyContent: "space-between",
+              }}
+            >
+              <ButtonBox
+                text="Orders"
+                icon="format-list-bulleted-square"
+                handler={navigationHandler}
+              ></ButtonBox>
+
+              {user?.role === "admin" && (
+                <ButtonBox
+                  icon="view-dashboard"
+                  text="Admin"
+                  reverse={true}
+                  handler={navigationHandler}
+                ></ButtonBox>
+              )}
+
+              <ButtonBox
+                text="Profile"
+                icon="pencil"
+                handler={navigationHandler}
+              ></ButtonBox>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                margin: 10,
+                justifyContent: "space-evenly",
+              }}
+            >
+              <ButtonBox
+                text="Password"
+                icon="format-list-bulleted-square"
+                handler={navigationHandler}
+              ></ButtonBox>
+              <ButtonBox
+                text="Sign Out"
+                icon="exit-to-app"
+                handler={navigationHandler}
+              ></ButtonBox>
+            </View>
+          </>
+        )}
+      </View>
+      <Footer></Footer>
+    </SafeAreaView>
+  );
 };
 
 export default Profile;
 
 const styles = StyleSheet.create({
-    container: {
-        elevation: 7,
-        shadowOffset: { width: 0, height: 2 },
-        shadowColor: Colors.gray500,
-        shadowOpacity: 0.2,
-        backgroundColor: Colors.gray500,
-        padding: 30,
-        borderRadius: 10,
-        alignItems: "center",
-    },
-    name: {
-        fontSize: 20,
-        fontWeight: 500,
-        marginTop: 10,
-        color: Colors.white,
-    },
+  container: {
+    elevation: 7,
+    shadowOffset: { width: 0, height: 2 },
+    shadowColor: Colors.gray500,
+    shadowOpacity: 0.2,
+    backgroundColor: Colors.gray500,
+    padding: 30,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: 500,
+    marginTop: 10,
+    color: Colors.white,
+  },
 });

@@ -11,18 +11,23 @@ import {
 import { TextInput, Button } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Footer from "../components/Footer";
+import { useDispatch } from "react-redux";
+import { forgetPassword } from "../redux/actions/otherAction";
+import { useMessageAndErrorOther } from "../utils/hooks";
 
 const ForgetPassword = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loading = false;
+  const loading = useMessageAndErrorOther(dispatch, navigation, "verify");
 
   const submitHandler = () => {
-    alert("Login");
-    navigation.navigate("verify");
+    // alert("Login");
+    // navigation.navigate("verify");
+    dispatch(forgetPassword(email));
   };
 
   return (

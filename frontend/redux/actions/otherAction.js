@@ -351,3 +351,89 @@ export const deleteProductImage = (productId, imageId) => async (dispatch) => {
     });
   }
 };
+
+export const deleteProduct = (productId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "deleteProductRequest",
+    });
+
+    const { data } = await axios.delete(
+      `${server}/product/single/${productId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: "deleteProductSuccess",
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: "deleteProductFail",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const forgetPassword = (email) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "forgetPasswordRequest",
+    });
+    const { data } = await axios.post(
+      `${server}/user/forgetpassword`,
+      {
+        email,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: "forgetPasswordSuccess",
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: "forgetPasswordFail",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const resetPassword = (otp, password) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "resetPasswordRequest",
+    });
+    const { data } = await axios.put(
+      `${server}/user/forgetpassword`,
+      {
+        otp,
+        password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: "resetPasswordSuccess",
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: "resetPasswordFail",
+      payload: error.response.data.message,
+    });
+  }
+};
