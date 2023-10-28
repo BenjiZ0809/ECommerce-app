@@ -111,7 +111,7 @@ export const deleteProductImage = asyncError(async (req, res, next) => {
 
   let isExist = -1;
   product.images.forEach((item, index) => {
-    if (item.public_id.toString() === id.toString()) {
+    if (item._id.toString() === id.toString()) {
       isExist = index;
     }
   });

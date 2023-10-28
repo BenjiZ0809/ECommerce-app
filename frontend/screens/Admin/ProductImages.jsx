@@ -12,21 +12,40 @@ import Header from "../../components/Header";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import ImageCard from "../../components/ImageCard";
 import { Avatar, Button } from "react-native-paper";
+import { useMessageAndErrorOther } from "../../utils/hooks";
+import { useDispatch } from "react-redux";
+import mime from "mime";
+import {
+  deleteProductImage,
+  updateProductImage,
+} from "../../redux/actions/otherAction";
 
 const ProductImages = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
   const [images] = useState(route.params.images);
   const [productId] = useState(route.params.id);
   const [image, setImage] = useState(null);
   const [imageChanged, setImageChanged] = useState(false);
 
-  const loading = false;
+  const loading = useMessageAndErrorOther(dispatch, navigation, "adminPanel");
 
-  const submitHandler = () => {};
-  const deleteHandler = (id) => {
-    console.log("Image Id", id);
-    console.log("Product Id", productId);
+  const submitHandler = () => {
+    const myForm = new FormData();
+
+    myForm.append("file", {
+      uri: image,
+      type: mime.getType(image),
+      name: image.split("/").pop(),
+    });
+
+    dispatch(updateProductImage(productId, myForm));
+  };
+
+  const deleteHandler = (imageId) => {
+    console.log(imageId);
+    dispatch(deleteProductImage(productId, imageId));
   };
 
   useEffect(() => {

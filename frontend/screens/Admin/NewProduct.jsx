@@ -58,7 +58,7 @@ const NewProduct = ({}) => {
     myForm.append("file", {
       uri: image,
       type: mime.getType(image),
-      name: image.split("/").pop,
+      name: image.split("/").pop(),
     });
 
     if (categoryId) {

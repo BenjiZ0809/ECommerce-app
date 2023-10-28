@@ -262,3 +262,92 @@ export const createProduct = (formData) => async (dispatch) => {
     });
   }
 };
+
+export const updateProduct =
+  (id, name, description, price, stock, category) => async (dispatch) => {
+    try {
+      dispatch({
+        type: "updateProductRequest",
+      });
+      const { data } = await axios.put(
+        `${server}/product/single/${id}`,
+        {
+          name,
+          description,
+          price,
+          stock,
+          category,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      dispatch({
+        type: "updateProductSuccess",
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: "updateProductFail",
+        payload: error.response.data.message,
+      });
+    }
+  };
+
+export const updateProductImage = (productId, formData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "updateProductImageRequest",
+    });
+
+    const { data } = await axios.post(
+      `${server}/product/images/${productId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: "updateProductImageSuccess",
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: "updateProductImageFail",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const deleteProductImage = (productId, imageId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "deleteProductImageRequest",
+    });
+
+    const { data } = await axios.delete(
+      `${server}/product/images/${productId}?id=${imageId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: "deleteProductImageSuccess",
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: "deleteProductImageFail",
+      payload: error.response.data.message,
+    });
+  }
+};
